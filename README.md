@@ -8,9 +8,6 @@ This is my custom OS based on Fedora Atomic.
 sudo bootc switch ghcr.io/mradityaalok/<variant_name>
 ```
 
-```
-```
-
 - Reboot again to complete the installation
 
   ```
