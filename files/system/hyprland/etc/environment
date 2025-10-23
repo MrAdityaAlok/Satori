@@ -1,0 +1,26 @@
+# vi: ft=sh
+
+# Backends:
+GDK_BACKEND='wayland,x11,*'
+QT_QPA_PLATFORM="wayland;xcb"
+SDL_VIDEODRIVER=wayland
+CLUTTER_BACKEND=wayland
+
+# Hyprland:
+HYPRCURSOR_THEME=rose-pine-hyprcursor
+HYPRCURSOR_SIZE=24
+
+# Why this when using HyprCursor?
+# From hyprland docs: Although many apps support server-side cursors
+# (e.g. Qt, Chromium, Electron, Hypr Ecosystem) some apps still don’t (e.g. GTK)
+# Apps that do not support server-side cursors and hyprcursor will still fall back to XCursor.
+XCURSOR_THEME=BreezeX-RosePine-Linux
+XCURSOR_SIZE=24
+
+# Qt:
+QT_AUTO_SCREEN_SCALE_FACTOR=1
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+QT_QPA_PLATFORMTHEME=gtk3
+
+# Others:
+EDITOR=neovide

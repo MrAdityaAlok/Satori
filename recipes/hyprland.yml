@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+
+name: satori-hypr
+description: This is my personal OS based on Fedora Atomic
+
+base-image: quay.io/fedora/fedora-bootc
+image-version: 43
+
+modules:
+  - type: files
+    files:
+      - source: system/hyprland
+        destination: /
+
+  - from-file: common/common-modules.yml
+  - from-file: variants/hyprland.yml
+  - from-file: common/final-modules.yml
+
+  - type: os-release
+    properties:
+      VARIANT: Hyprland Edition
+      VARIANT_ID: hypr

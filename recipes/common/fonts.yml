@@ -1,0 +1,12 @@
+modules:
+  - type: dnf
+    install:
+      packages:
+        - google-noto-color-emoji-fonts
+
+  - type: fonts
+    fonts:
+      nerd-fonts:
+        - Iosevka
+        - CodeNewRoman
+        - NerdFontsSymbolsOnly

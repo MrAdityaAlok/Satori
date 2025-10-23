@@ -1,0 +1,37 @@
+name: Build OS
+on:
+  schedule:
+    - cron: "00 06 * * *" # Build at 06:00 UTC every day.
+  push:
+    paths-ignore:
+      - "**.md"
+
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }} # Only run one build at a time.
+  cancel-in-progress: true
+jobs:
+  bluebuild:
+    name: Build Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      fail-fast: false # Stop GH from cancelling all matrix builds if one fails.
+      matrix:
+        recipe:
+          - hyprland.yml
+    steps:
+      - name: Build Image
+        uses: blue-build/github-action@v1.8
+        with:
+          recipe: ${{ matrix.recipe }}
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
+          pr_event_number: ${{ github.event.number }}
+          maximize_build_space: false
+          use_cache: true
+          rechunk: true # May cause file permssion issues.

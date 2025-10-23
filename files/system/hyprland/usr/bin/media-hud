@@ -1,0 +1,152 @@
+#!/usr/bin/bash
+
+SCREEN_DEVICE='amdgpu_bl1'
+
+# Hardcoded ID's:
+ID_VOL=2593
+ID_MIC=2594
+ID_BRIGHT=2595
+ID_MEDIA=2596
+
+volume() {
+  local icon_muted=""
+  local icon_low=""
+  local icon_high=""
+
+  case "$1" in
+  up)
+    wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+    ;;
+  down)
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    ;;
+  toggle)
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    ;;
+  esac
+
+  local status_line
+  status_line=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+
+  if [[ "$status_line" == *"[MUTED]"* ]]; then
+    dunstify -r "$ID_VOL" -u low "$icon_muted   Muted"
+  else
+    local volume volume_icon
+    volume=$(echo "$status_line" | awk '{print int($2 * 100)}')
+
+    volume_icon="$icon_high"
+    if [ "$volume" -lt 50 ]; then
+      volume_icon="$icon_low"
+    fi
+    dunstify -r "$ID_VOL" -u low -h int:value:"$volume" "$volume_icon   $volume%"
+  fi
+}
+
+mic_toggle() {
+  local icon_muted=""
+  local icon_unmuted=""
+
+  wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+  if wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q 'MUTED'; then
+    dunstify -r "$ID_MIC" -u low "$icon_muted   Microphone Muted"
+  else
+    dunstify -r "$ID_MIC" -u low "$icon_unmuted   Microphone On"
+  fi
+}
+
+brightness() {
+  case "$1" in
+  up)
+    brightnessctl -d "$SCREEN_DEVICE" set 5%+
+    ;;
+  down)
+    brightnessctl -d "$SCREEN_DEVICE" set 5%-
+    ;;
+  esac
+
+  local brightness
+  brightness="$(brightnessctl -d "$SCREEN_DEVICE" | grep -oP '\d+%')"
+  dunstify -r "$ID_BRIGHT" -u low -h int:value:"$brightness" "   $brightness"
+}
+
+media() {
+  local icon_play=""
+  local icon_pause=""
+  local icon_stop=""
+  local icon_next=""
+  local icon_prev=""
+  local icon_default="🎜"
+
+  # Check if a player is running:
+  if ! playerctl status &>/dev/null; then
+    dunstify -r "$ID_MEDIA" -u low -i "$icon_default    No player is active"
+    return
+  fi
+
+  playerctl "$1"
+
+  # Let the player update:
+  sleep 0.5
+
+  local title artist status album_art_path art_url
+  title=$(playerctl metadata --format "{{ title }}")
+  artist=$(playerctl metadata --format "{{ artist }}")
+  status=$(playerctl status)
+  art_url=$(playerctl metadata mpris:artUrl)
+
+  if [[ "$art_url" == http* ]]; then
+    # Download web art to a temporary file:
+    album_art_path="/tmp/album_art.png"
+    curl -s -o "$album_art_path" "$art_url"
+  elif [[ "$art_url" == file* ]]; then
+    # Use local file path directly:
+    album_art_path="${art_url/file:\/\//}"
+  fi
+
+  local summary=""
+  if [[ "$status" == "Playing" ]]; then
+    summary="$icon_play $title"
+  elif [[ "$status" == "Paused" ]]; then
+    summary="$icon_pause $title"
+  else
+    summary="$icon_stop $title"
+  fi
+
+  if [[ -z "$album_art_path" ]]; then
+    dunstify -r "$ID_MEDIA" -u low "$icon_default   $summary" "$artist"
+  else
+    dunstify -r "$ID_MEDIA" -u low -i "$album_art_path" "$summary" "$artist"
+  fi
+}
+
+usage() {
+  echo "Usage: $0 [command]"
+  echo
+  echo "Commands:"
+  echo "  volume_up | volume_down | volume_toggle"
+  echo "  mic_toggle"
+  echo "  brightness_up | brightness_down"
+  echo "  toogle_track | stop_track | next_track | prev_track"
+  exit 1
+}
+
+[ -z "$1" ] && usage
+
+case "$1" in
+volume_up) volume "up" ;;
+volume_down) volume "down" ;;
+volume_toggle) volume "mute" ;;
+
+mic_toggle) mic_toggle ;;
+
+brightness_up) brightness "up" ;;
+brightness_down) brightness "down" ;;
+
+toggle_track) media "play-pause" ;;
+stop_track) media "stop" ;;
+next_track) media "next" ;;
+prev_track) media "previous" ;;
+
+*) usage ;;
+esac
