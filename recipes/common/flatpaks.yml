@@ -1,0 +1,10 @@
+modules:
+  - type: default-flatpaks
+    configurations:
+      - notify: false
+        scope: system
+        install:
+          - com.stremio.Stremio
+          - app.zen_browser.zen
+          - org.gnome.Loupe
+          - org.videolan.VLC

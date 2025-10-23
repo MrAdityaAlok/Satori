@@ -1,0 +1,18 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="200" fill="white" />
+  
+  <!-- Enso circle: a roughly circular stroke, open on top-right -->
+  <path
+    d="M 50 100
+       A 50 50 0 1 1 140 90"
+    fill="none"
+    stroke="#2E2E2E"
+    stroke-width="8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  
+  <!-- Small dot inside circle representing insight -->
+  <circle cx="100" cy="80" r="6" fill="#D4AF37" />
+</svg>

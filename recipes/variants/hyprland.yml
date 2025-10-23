@@ -1,0 +1,45 @@
+modules:
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - solopasha/hyprland
+    install:
+      packages:
+        - uwsm
+        - hyprland
+        - hypridle
+        - hyprlock
+        - hyprpolkitagent
+        - hyprsunset
+        - xdg-desktop-portal-hyprland
+        - xdg-desktop-portal-gtk
+        - qt5-qtwayland
+        - qt6-qtwayland
+        - rofi-wayland
+        - dunst
+        - waybar
+        - brightnessctl
+        - swww
+        - matugen
+        - hyprshot
+
+        - nautilus
+        - gvfs-fuse
+        - gvfs-archive
+        - gvfs-mtp
+
+        - cava
+
+  - type: script
+    scripts:
+      - hyprland/install-prebuilt-packages.sh
+
+  - type: gschema-overrides
+    include:
+      - zz1-satori-hyprland-theming.gschema.override
+
+  - type: systemd
+    system:
+      enabled:
+        - hyprland-firstboot.service

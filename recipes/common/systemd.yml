@@ -1,0 +1,8 @@
+modules:
+  - type: systemd
+    system:
+      enabled:
+        - flatpak-system-update.timer
+    user:
+      enabled:
+        - flatpak-user-update.timer

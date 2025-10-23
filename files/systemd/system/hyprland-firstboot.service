@@ -1,0 +1,11 @@
+[Unit]
+Description=Run wallpaper script on firstboot
+ConditionPathExists=!/etc/firstboot_done
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/wallpaper /usr/share/backgrounds/satori-wall.png
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,54 @@
+modules:
+  # Multimedia codecs and proprietary packages:
+  - type: dnf
+    repos:
+      nonfree: rpmfusion
+    install:
+      packages:
+        - ffmpeg
+        - ffmpeg-libs
+        - ffmpegthumbnailer
+        - pipewire
+        - mesa-dri-drivers
+        - mesa-filesystem
+        - mesa-va-drivers
+        - mesa-vdpau-drivers
+        - mesa-vulkan-drivers
+    group-install:
+      with-optional: false
+      packages:
+        - multimedia
+
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - atim/starship
+    install:
+      packages:
+        - starship
+        - kitty
+        - fish
+        - starship
+        - fzf
+        - zoxide
+        - fastfetch
+        - btop
+        - neovim
+        - wl-clipboard
+
+        - android-tools
+        - distrobox
+        - wget
+
+        - adw-gtk3-theme
+        - papirus-icon-theme
+    remove:
+      packages:
+        - firefox
+        - firefox-langpacks
+        - htop
+
+  - type: script
+    scripts:
+      - install-prebuilt-binaries.sh

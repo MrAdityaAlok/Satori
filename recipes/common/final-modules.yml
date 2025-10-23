@@ -1,0 +1,29 @@
+modules:
+  - type: script
+    scripts:
+      - finish-setup.sh
+
+  - type: os-release
+    properties:
+      NAME: Satori
+      PRETTY_NAME: Satori OS 1.0 (Based on Fedora Atomic)
+
+      VERSION_ID: "1.0"
+      VERSION: 1.0 (Shōgen)
+      VERSION_CODENAME: Shōgen
+
+      IMAGE_VENDOR: MrAdityaAlok
+
+      DEFAULT_HOSTNAME: satori
+      CPE_NAME: cpe:/o:mradityaalok:satori:1
+
+      HOME_URL: https://github.com/MrAdityaAlok/Satori
+      DOCUMENTATION_URL: https://github.com/MrAdityaAlok/Satori
+      SUPPORT_URL: https://github.com/MrAdityaAlok/Satori/issues
+      BUG_SUPPORT_URL: https://github.com/MrAdityaAlok/Satori/issues
+
+      LOGO: satori
+
+  - type: initramfs
+
+  - type: signing
