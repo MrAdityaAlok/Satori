@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+usage() {
+  echo "Usage: $(basename "$0") <path_to_wallpaper>"
+  exit 1
+}
+
+error() {
+  echo "ERROR: $1" >&2
+  exit 1
+}
+
+info() {
+  echo "INFO: $1"
+}
+
+test -z "${1:-}" && usage
+wallpaper_path="$1"
+test -f "$wallpaper_path" || error "Wallpaper file '$wallpaper_path' does not exist"
+
+info "Setting wallpaper..."
+hyprctl hyprpaper wallpaper ,"$wallpaper_path", || error "Failed to set wallpaper"
+
+info "Running matugen..."
+matugen image "$wallpaper_path" \
+  -t scheme-tonal-spot \
+  -m dark \
+  -r gaussian \
+  --contrast 0 || error "Failed to run matugen"
+
+info "Done."

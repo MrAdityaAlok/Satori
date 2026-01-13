@@ -1,0 +1,35 @@
+[global]
+monitor = 0
+follow = none
+
+width = (100, 300)
+height = (50, 200)
+offset = (10, 20)
+frame_width = 2
+
+sort = yes
+
+font = "Adwaita Sans 11"
+
+icon_theme = "Papirus"
+enable_recursive_icon_lookup = true
+
+corner_radius = 10
+
+# separator_color= "#a08d87"
+
+markup = full
+background = "#11111b80"
+# @MATUGEN_BEGIN@
+frame_color = "#8f9099"
+highlight = "#b1c5ff"
+# @MATUGEN_END@
+
+[urgency_low]
+timeout = 3
+
+[urgency_normal]
+timeout = 5
+
+[urgency_critical]
+timeout = 0

@@ -1,0 +1,21 @@
+# vi: ft=dosini
+
+[Flatpak Preinstall com.stremio.Stremio]
+Remote=flathub
+Branch=stable
+
+[Flatpak Preinstall app.zen_browser.zen]
+Remote=flathub
+Branch=stable
+
+[Flatpak Preinstall org.gnome.Loupe]
+Remote=flathub
+Branch=stable
+
+[Flatpak Preinstall org.gnome.Nautilus]
+Remote=flathub
+Branch=stable
+
+[Flatpak Preinstall io.github.kolunmi.Bazaar]
+Remote=flathub
+Branch=stable

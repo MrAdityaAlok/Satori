@@ -1,0 +1,92 @@
+#!/bin/bash
+
+CONFIG_HOME="$HOME/.config"
+
+# shellcheck source=../../satori/matugen/colors/helper.env
+source ~/.config/satori/matugen/colors/helper.env
+
+# Replaces text within @MATUGEN_BEGIN@ and @MATUGEN_END@
+replace_between_markers() {
+	awk -i inplace -v replacement="$(cat)" '
+    BEGIN {
+      between_markers = 0
+	  replaced = 0
+    }
+
+    !replaced && /@MATUGEN_BEGIN@/ {
+      print $0
+      print replacement
+      between_markers = 1
+	  replaced = 1
+      next
+    }
+
+    between_markers && /@MATUGEN_END@/ {
+      between_markers = 0
+    }
+
+    between_markers == 1 {
+      next
+    }
+
+    {
+      print $0
+    }
+  ' "$1"
+}
+
+_fastfetch() {
+	replace_between_markers "$CONFIG_HOME/fastfetch/config.jsonc" <<-EOF
+		"title": "$tertiary",
+		"separator": "$outline",
+		"keys": "$on_surface_variant",
+		"output": "$primary"
+	EOF
+}
+
+_starship() {
+	replace_between_markers "$CONFIG_HOME/starship.toml" <<-EOF
+		color1 = '$primary_fixed_dim'
+		color2 = '$on_primary'
+		color3 = '$on_surface_variant'
+		color4 = '$surface_container'
+		color5 = '$on_primary'
+		color6 = '$surface_dim'
+		color7 = '$surface'
+		color8 = '$primary'
+		color9 = '$tertiary'
+		error = '$error'
+	EOF
+}
+
+_dunst() {
+	replace_between_markers "$CONFIG_HOME/dunst/dunstrc" <<-EOF
+		frame_color = "$outline"
+		highlight = "$primary"
+	EOF
+	dunstctl reload
+}
+
+_cava() {
+	replace_between_markers "$CONFIG_HOME/cava/config" <<-EOF
+		foreground = '$primary'
+
+		gradient = 1
+		gradient_color_1 = '$primary_container'
+		gradient_color_2 = '$primary'
+		gradient_color_3 = '$on_primary_container'
+
+		horizontal_gradient = 0
+		horizontal_gradient_color_1 = '$primary_container'
+		horizontal_gradient_color_2 = '$primary'
+		horizontal_gradient_color_3 = '$on_primary_container'
+		horizontal_gradient_color_4 = '$primary'
+		horizontal_gradient_color_5 = '$primary_container'
+	EOF
+	if pidof cava; then pkill -USR1 cava; fi
+}
+
+_fastfetch
+_starship
+_dunst
+_cava

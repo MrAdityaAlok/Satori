@@ -1,0 +1,54 @@
+[config]
+version_check = false
+caching = true
+
+[config.wallpaper]
+command = ""
+set = false
+
+[templates.matugen-helper]
+input_path = "./templates/matugen-helper"
+output_path = "../satori/matugen/colors/helper.env"
+post_hook = "~/.config/matugen/script/matugen-helper"
+
+[templates.fish]
+input_path = "./templates/colors.fish"
+output_path = "../satori/matugen/colors/colors.fish"
+
+[templates.btop]
+input_path = './templates/btop.theme'
+output_path = '../satori/matugen/colors/btop.theme'
+post_hook = "pkill -SIGUSR2 btop || :"
+
+[templates.gtk]
+input_path = "./templates/gtk.css"
+output_path = "../satori/matugen/colors/gtk.css"
+
+[templates.waybar]
+input_path = "./templates/waybar.css"
+output_path = "../satori/matugen/colors/waybar.css"
+post_hook = "pkill -SIGUSR2 waybar"
+
+[templates.foot]
+input_path = './templates/foot.ini'
+output_path = '../satori/matugen/colors/foot.ini'
+
+[templates.hyprland]
+input_path = './templates/hyprland.conf'
+output_path = '../satori/matugen/colors/hyprland.conf'
+
+[templates.hyprlock]
+input_path = "./templates/hyprlock.conf"
+output_path = "../satori/matugen/colors/hyprlock.conf"
+
+[templates.hyprpaper]
+input_path = "./templates/hyprpaper.conf"
+output_path = "../satori/matugen/colors/hyprpaper.conf"
+
+[templates.fuzzel]
+input_path = "./templates/fuzzel.ini"
+output_path = "../satori/matugen/colors/fuzzel.ini"
+
+[templates.eza]
+input_path = "./templates/eza.yml"
+output_path = "../satori/matugen/colors/eza.yml"

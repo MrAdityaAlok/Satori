@@ -1,6 +1,0 @@
-* {
-    text-color: {{colors.secondary.default.hex}};
-    selected-color: {{colors.secondary_container.default.hex | set_lightness: 10.0}};
-    border-color: {{colors.outline.default.hex}};
-    background-color: {{colors.surface_container_highest.default.rgba | set_alpha: 0.5}};
-}

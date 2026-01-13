@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# I cannot make it an alias. It causes SIGSEGV.
-app2unit -- neovide --fork "$@"

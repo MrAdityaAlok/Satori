@@ -1,0 +1,19 @@
+# vi: ft=sh
+
+# Why this when using HyprCursor?
+# From hyprland docs: Although many apps support server-side cursors
+# (e.g. Qt, Chromium, Electron, Hypr Ecosystem) some apps still don’t (e.g. GTK)
+# Apps that do not support server-side cursors and hyprcursor will still fall back to XCursor.
+export XCURSOR_THEME=BreezeX-RosePine-Linux
+export XCURSOR_SIZE=24
+
+# Qt:
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_QPA_PLATFORMTHEME=gtk3
+
+# app2unit:
+export APP2UNIT_SLICES='a=app-graphical.slice b=background-graphical.slice s=session-graphical.slice'
+
+# Others:
+export EDITOR=vi
