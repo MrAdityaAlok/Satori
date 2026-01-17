@@ -24,7 +24,7 @@ setup_local_repo() {
 		baseurl=file:///tmp/local-repo
 		enabled=1
 		gpgcheck=0
-		priority=99
+		priority=1
 	EOF
 }
 
@@ -47,3 +47,4 @@ dnf install -y "$PACKAGE"
 
 echo "Running: $PACKAGE $ARGS"
 $PACKAGE $ARGS
+

@@ -10,7 +10,7 @@ cat <<-EOF >/etc/yum.repos.d/local-output.repo
 	baseurl=file:///output
 	enabled=1
 	gpgcheck=0
-	priority=99
+	priority=1
 EOF
 
 dnf -y copr enable mradityaalok/satori
@@ -40,3 +40,4 @@ for pkg in $TARGET_PKGS; do
 done
 
 echo "Build complete."
+
