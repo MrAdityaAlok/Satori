@@ -42,6 +42,7 @@ dnf5 -y install \
 	power-profiles-daemon
 
 dnf5 -y copr enable atim/starship
+dnf5 -y copr enable mradityaalok/satori
 
 # Other packages:
 dnf5 -y install \
@@ -54,6 +55,8 @@ dnf5 -y install \
 	fastfetch \
 	btop \
 	neovim \
+	neovide \
+	eza \
 	wl-clipboard \
 	git \
 	android-tools \

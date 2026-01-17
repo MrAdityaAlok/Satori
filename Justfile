@@ -327,3 +327,44 @@ format:
     fi
     # Run shfmt on all Bash scripts
     /usr/bin/find . -iname "*.sh" -type f -exec shfmt --write "{}" ';'
+
+[group('Package Build')]
+build-pkg-builder:
+    podman build -f Containerfile.builder -t satori-builder .
+
+# Usage: just test-pkg "hyprland neovide" (or empty for all)
+[group('Package Build')]
+test-pkg +packages="": build-pkg-builder
+    #!/usr/bin/env bash
+    set -eoux pipefail
+
+    mkdir -p output
+
+    if [ -z "{{ packages }}" ]; then
+        TARGET_PKGS="*"
+        echo "Building ALL packages..."
+    else
+        TARGET_PKGS="{{ packages }}"
+        echo "Building packages: $TARGET_PKGS"
+    fi
+
+    podman run --rm -it \
+        --security-opt label=disable \
+        -v $(pwd)/packages:/packages:ro \
+        -v $(pwd)/output:/output:z \
+        -e TARGET_PKGS="$TARGET_PKGS" \
+        satori-builder \
+        /usr/local/bin/build-packages
+
+# Usage: just test-install (rpmlint on all in output/)
+#        just test-install hyprctl --version
+[group('Package Build')]
+test-install *ARGS:
+    #!/usr/bin/env bash
+    set -eoux pipefail
+    podman run --rm -it \
+        --security-opt label=disable \
+        -v $(pwd)/output:/output:ro \
+        -v $(pwd)/packages/test.sh:/test_packages.sh:ro \
+        fedora:43 \
+        /test_packages.sh {{ARGS}}

@@ -1,0 +1,55 @@
+Name:           hyprcursor
+Version:        0.1.13
+Release:        %autorelease
+Summary:        The Hyprland cursor format, library and utilities
+
+License:        BSD-3-Clause
+URL:            https://github.com/hyprwm/hyprcursor
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+
+# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
+ExcludeArch:    %{ix86}
+
+BuildRequires:  cmake
+BuildRequires:  gcc-c++
+BuildRequires:  pkgconfig(hyprlang)
+BuildRequires:  pkgconfig(librsvg-2.0)
+BuildRequires:  pkgconfig(libzip)
+
+%description
+Utilities for handling cursors in Hyprland components.
+
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description    devel
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
+
+%prep
+%autosetup -p1
+
+%build
+%cmake
+%cmake_build
+
+%install
+%cmake_install
+
+%check
+%ctest
+
+%files
+%license LICENSE
+%doc README.md
+%{_libdir}/libhyprcursor.so.1*
+%{_bindir}/hyprcursor-util
+
+%files devel
+%{_includedir}/hyprcursor/
+%{_libdir}/libhyprcursor.so
+%{_libdir}/pkgconfig/hyprcursor.pc
+
+%changelog
+%autochangelog
