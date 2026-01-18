@@ -7,9 +7,6 @@ License:        BSD-3-Clause
 URL:            https://github.com/hyprwm/hyprqt6engine
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 Patch0:         0001-fix-qt6-guiprivate.diff
 
 BuildRequires:  cmake

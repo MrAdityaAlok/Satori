@@ -7,9 +7,6 @@ License:        MIT
 URL:            https://github.com/neovide/neovide
 Source0:        %{url}/archive/%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  rust
 BuildRequires:  cargo
 BuildRequires:  gcc-c++
@@ -37,22 +34,19 @@ cursor, smooth scrolling, and emoji support.
 cargo build --release --locked --features embed-fonts
 
 %install
-install -Dm755 target/release/neovide %{buildroot}%{_bindir}/neovide
-
-install -Dm644 assets/neovide.desktop %{buildroot}%{_datadir}/applications/neovide.desktop
-
-install -Dm644 assets/neovide.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/neovide.svg
-desktop-file-install --dir=%{buildroot}%{_datadir}/applications assets/neovide.desktop
+install -Dm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+desktop-file-install --dir=%{buildroot}%{_datadir}/applications assets/%{name}.desktop
+install -Dm644 assets/%{name}.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %check
-desktop-file-validate %{buildroot}%{_datadir}/applications/neovide.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %files
 %license LICENSE
 %doc README.md
-%{_bindir}/neovide
-%{_datadir}/applications/neovide.desktop
-%{_datadir}/icons/hicolor/scalable/apps/neovide.svg
+%{_bindir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
 %autochangelog

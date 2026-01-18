@@ -7,9 +7,6 @@ License:        BSD-3-Clause
 URL:            https://github.com/hyprwm/hyprpolkitagent
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build

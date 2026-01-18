@@ -7,9 +7,6 @@ License:        EUPL-1.2
 URL:            https://github.com/eza-community/eza
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  rust
 BuildRequires:  cargo
 BuildRequires:  pkgconfig(libgit2)

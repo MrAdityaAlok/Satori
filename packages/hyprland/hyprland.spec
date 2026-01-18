@@ -7,9 +7,6 @@ License:        BSD-3-Clause
 URL:            https://github.com/hyprwm/Hyprland
 Source0:        %{url}/releases/download/v%{version}/source-v%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build

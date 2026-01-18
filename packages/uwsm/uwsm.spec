@@ -9,7 +9,6 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 
-
 BuildRequires:  meson
 BuildRequires:  python3
 BuildRequires:  python3-dbus

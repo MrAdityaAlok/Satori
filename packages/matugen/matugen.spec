@@ -11,9 +11,6 @@ License:        GPL-2.0
 URL:            https://github.com/InioX/matugen
 Source0:        %{url}/archive/%{commit}.tar.gz#/matugen-%{shortcommit}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  rust
 BuildRequires:  cargo
 
@@ -27,12 +24,12 @@ A tool to generate Material Design 3 color palette from an image.
 cargo build --release --locked
 
 %install
-install -Dm755 target/release/matugen %{buildroot}%{_bindir}/matugen
+install -Dm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %license LICENSE
 %doc README.md
-%{_bindir}/matugen
+%{_bindir}/%{name}
 
 %changelog
 %autochangelog

@@ -7,9 +7,6 @@ License:        MIT
 URL:            https://github.com/savedra1/clipse
 Source0:        %{url}/archive/v%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  golang
 
 %description
@@ -20,15 +17,15 @@ clipboard history and lets you quickly access it with an interactive TUI.
 %autosetup
 
 %build
-CGO_ENABLED=0 go build -tags "wayland" -o clipse .
+CGO_ENABLED=0 go build -tags "wayland" -o %{name} .
 
 %install
-install -Dm755 clipse %{buildroot}%{_bindir}/clipse
+install -Dm755 %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %license LICENSE
 %doc README.md
-%{_bindir}/clipse
+%{_bindir}/%{name}
 
 %changelog
 %autochangelog

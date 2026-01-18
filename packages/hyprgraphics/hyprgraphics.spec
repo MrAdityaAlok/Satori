@@ -7,17 +7,12 @@ License:        BSD-3-Clause
 URL:            https://github.com/hyprwm/hyprgraphics
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
-# https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
-ExcludeArch:    %{ix86}
-
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig(hyprutils)
-%if 0%{?fedora} >= 41
 BuildRequires:  pkgconfig(libjxl_cms)
 BuildRequires:  pkgconfig(libjxl_threads)
 BuildRequires:  pkgconfig(libjxl)
-%endif
 BuildRequires:  pkgconfig(libmagic)
 BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(libheif)
