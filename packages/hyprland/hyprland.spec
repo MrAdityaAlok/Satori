@@ -75,7 +75,7 @@ BuildRequires:  flex
 BuildRequires:  byacc
 BuildRequires:  pkgconfig(xcb-xkb)
 BuildRequires:  pkgconfig(xkeyboard-config)
-BuildRequires:  pkgconfig(libxml2)
+BuildRequires:  libxml2-devel
 %else
 BuildRequires:  pkgconfig(xkbcommon) >= 1.11.0
 %endif
@@ -123,7 +123,8 @@ pushd subprojects/libxkbcommon
 %meson_build
 DESTDIR="%{_builddir}/libxkbcommon" meson install -C %{_vpath_builddir} --no-rebuild
 popd
-export PKG_CONFIG_PATH="%{_builddir}/libxkbcommon/lib64/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="%{_builddir}/libxkbcommon/usr/lib64/pkgconfig:$PKG_CONFIG_PATH"
+%global optflags %{optflags} -I%{_builddir}/libxkbcommon/%{_includedir} -L%{_builddir}/libxkbcommon/%{_libdir}
 %endif
 
 %cmake
