@@ -8,6 +8,7 @@ URL:            https://github.com/savedra1/clipse
 Source0:        %{url}/archive/v%{version}.tar.gz
 
 BuildRequires:  golang
+BuildRequires:  git
 
 %description
 Clipse is a configurable clipboard manager for Wayland. It stores your
