@@ -1,11 +1,26 @@
+%if 0%{?fedora} < 43
+%global use_vendored_sdbus 1
+%else
+%global use_vendored_sdbus 0
+%endif
+
 Name:           hypridle
 Version:        0.1.7
 Release:        %autorelease
 Summary:        Hyprland's idle daemon
 
+%if %{use_vendored_sdbus}
+License:        BSD-3-Clause AND LGPL-2.1
+%else
 License:        BSD-3-Clause
+%endif
+
 URL:            https://github.com/hyprwm/hypridle
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+
+%if %{use_vendored_sdbus}
+Source1:        https://github.com/Kistler-Group/sdbus-cpp/archive/v2.0.1/sdbus-2.0.1.tar.gz
+%endif
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -15,11 +30,16 @@ BuildRequires:  systemd-rpm-macros
 
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
-BuildRequires:  pkgconfig(sdbus-c++)
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprlang)
-BuildRequires:  hyprwayland-scanner
-BuildRequires:  hyprland-protocols-devel
+BuildRequires:  pkgconfig(hyprwayland-scanner)
+BuildRequires:  pkgconfig(hyprland-protocols)
+
+%if %{use_vendored_sdbus}
+BuildRequires:  pkgconfig(systemd)
+%else
+BuildRequires:  pkgconfig(sdbus-cpp) >= 2.0.1
+%endif
 
 %description
 hypridle is Hyprland's idle management daemon. It uses the ext-idle-notify-v1
@@ -29,8 +49,25 @@ idle/active events, such as dimming the screen or locking the session.
 %prep
 %autosetup -p1
 
+%if %{use_vendored_sdbus}
+mkdir -p vendor_sdbus
+tar -xf %{SOURCE1} -C vendor_sdbus --strip-components=1
+%endif
+
 %build
-%cmake -DNO_SYSTEMD=true
+%if %{use_vendored_sdbus}
+pushd vendor_sdbus
+cmake -B build -S . \
+    -DCMAKE_INSTALL_PREFIX=$(pwd)/install \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+cmake --install build
+popd
+export PKG_CONFIG_PATH="$(pwd)/vendor_sdbus/install/lib64/pkgconfig:$PKG_CONFIG_PATH"
+%endif
+
+%cmake
 %cmake_build
 
 %install
