@@ -12,6 +12,8 @@ BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig(hyprlang)
 BuildRequires:  pkgconfig(librsvg-2.0)
 BuildRequires:  pkgconfig(libzip)
+BuildRequires:  pkgconfig(cairo)
+BuildRequires:  pkgconfig(tomlplusplus)
 
 %description
 Utilities for handling cursors in Hyprland components.
