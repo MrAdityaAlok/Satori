@@ -19,7 +19,6 @@ dnf5 -y swap --repo='fedora' OpenCL-ICD-Loader ocl-icd
 
 /ctx/common/kernel.sh
 /ctx/common/packages.sh
-/ctx/common/extra-packages.sh
 /ctx/common/flatpaks.sh
 
 # Copy system files after packages installation to overwrite some files:
