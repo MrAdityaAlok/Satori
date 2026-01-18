@@ -110,23 +110,20 @@ developing plugins and tools for %{name}.
 %autosetup -p1 -n %{name}-source
 
 %if %{use_vendored_xkbcommon}
-mkdir -p vendor_xkbcommon
-tar -xf %{SOURCE1} -C vendor_xkbcommon --strip-components=1
+mkdir -p subprojects/libxkbcommon
+tar -xf %{SOURCE1} -C subprojects/libxkbcommon --strip-components=1
 %endif
 
 %build
 %if %{use_vendored_xkbcommon}
-pushd vendor_xkbcommon
-meson setup build \
-    --prefix=$(pwd)/install \
-    --buildtype=release \
-    -Denable-docs=false \
+pushd subprojects/libxkbcommon
+%meson \
     -Denable-tools=false \
     -Ddefault_library=static
-meson compile -C build
-meson install -C build
+%meson_build
+DESTDIR="%{_builddir}/libxkbcommon" meson install -C %{_vpath_builddir} --no-rebuild
 popd
-export PKG_CONFIG_PATH="$(pwd)/vendor_xkbcommon/install/lib64/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="%{_builddir}/libxkbcommon/lib64/pkgconfig:$PKG_CONFIG_PATH"
 %endif
 
 %cmake

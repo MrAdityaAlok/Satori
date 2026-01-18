@@ -42,7 +42,7 @@ BuildRequires:  pkgconfig(hyprland-protocols)
 %if %{use_vendored_sdbus}
 BuildRequires:  pkgconfig(systemd)
 %else
-BuildRequires:  pkgconfig(sdbus-cpp) >= 2.0.1
+BuildRequires:  pkgconfig(sdbus-c++) >= 2.0.1
 %endif
 
 Requires:       dbus
@@ -67,14 +67,14 @@ tar -xf %{SOURCE1} -C vendor_sdbus --strip-components=1
 %build
 %if %{use_vendored_sdbus}
 pushd vendor_sdbus
-cmake -B build -S . \
-    -DCMAKE_INSTALL_PREFIX=$(pwd)/install \
+%cmake \
+    -DCMAKE_INSTALL_PREFIX="%{_builddir}/sdbus" \
     -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_BUILD_TYPE=Release
-cmake --build build
-cmake --install build
+%cmake_build
+cmake --install %{__cmake_builddir}
 popd
-export PKG_CONFIG_PATH="$(pwd)/vendor_sdbus/install/lib64/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="%{_builddir}/sdbus/lib64/pkgconfig:$PKG_CONFIG_PATH"
 %endif
 
 %cmake
