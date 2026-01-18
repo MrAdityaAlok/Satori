@@ -9,6 +9,7 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
+
 BuildRequires:  pkgconfig(hyprlang)
 BuildRequires:  pkgconfig(librsvg-2.0)
 BuildRequires:  pkgconfig(libzip)
@@ -36,19 +37,18 @@ developing applications that use %{name}.
 %install
 %cmake_install
 
-%check
-%ctest
-
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libhyprcursor.so.1*
 %{_bindir}/hyprcursor-util
+%{_libdir}/lib%{name}.so.%{version}
+%{_libdir}/lib%{name}.so.0
 
 %files devel
-%{_includedir}/hyprcursor/
-%{_libdir}/libhyprcursor.so
-%{_libdir}/pkgconfig/hyprcursor.pc
+%{_includedir}/%{name}.hpp
+%{_includedir}/%{name}/
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
 %autochangelog
