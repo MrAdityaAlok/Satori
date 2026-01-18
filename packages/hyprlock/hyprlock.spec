@@ -19,7 +19,7 @@ URL:            https://github.com/hyprwm/hyprlock
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 %if %{use_vendored_sdbus}
-Source1:        https://github.com/Kistler-Group/sdbus-cpp/archive/v2.0.1/sdbus-2.0.1.tar.gz
+Source1:        https://github.com/Kistler-Group/sdbus-cpp/archive/refs/tags/v2.1.0.tar.gz
 %endif
 
 BuildRequires:  cmake
