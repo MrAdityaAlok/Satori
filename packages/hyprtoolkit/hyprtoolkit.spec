@@ -43,6 +43,9 @@ developing applications that use %{name}.
 
 %prep
 %autosetup -p1
+# FIX: rawhide compilation error:
+# src/palette/ConfigManager.cpp uses NAME_MAX but is missing <climits>
+sed -i '1i #include <climits>' src/palette/ConfigManager.cpp
 
 %build
 %cmake -GNinja \
