@@ -12,7 +12,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 
 BuildRequires:  mesa-libEGL-devel
-BuildRequires:  cmake(hyprwayland-scanner)
+BuildRequires:  pkgconfig(hyprwayland-scanner)
 BuildRequires:  pkgconfig(aquamarine)
 BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(gbm)
@@ -26,6 +26,7 @@ BuildRequires:  pkgconfig(pixman-1)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
 BuildRequires:  pkgconfig(xkbcommon)
+BuildRequires:  pkgconfig(libinotify)
 
 %description
 %{summary} for Hyprland.
@@ -45,7 +46,9 @@ developing applications that use %{name}.
 %autosetup -p1
 
 %build
-%cmake
+%cmake -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=OFF
 %cmake_build
 
 %install
