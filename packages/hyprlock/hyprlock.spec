@@ -44,7 +44,7 @@ BuildRequires:  pkgconfig(hyprwayland-scanner)
 BuildRequires:  pkgconfig(hyprland-protocols)
 
 %if %{use_vendored_sdbus}
-BuildRequires:  pkgconfig(systemd)
+BuildRequires:  pkgconfig(libsystemd)
 %else
 BuildRequires:  pkgconfig(sdbus-c++) >= 2.0.1
 %endif
