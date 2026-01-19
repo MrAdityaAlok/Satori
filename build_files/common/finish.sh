@@ -2,6 +2,15 @@
 
 set -ouex pipefail
 
+# Compile the gschemas:
+glib-compile-schemas /usr/share/glib-2.0/schemas
+
+# Make fish default shell for new users:
+sed -i "s|^SHELL=.*|SHELL=/usr/bin/fish|" /etc/default/useradd
+
+# Default systemd target:
+systemctl set-default graphical.target
+
 # Disable negativo17 repo:
 sed -i 's@enabled=1@enabled=0@g' "/etc/yum.repos.d/fedora-multimedia.repo"
 
@@ -12,11 +21,8 @@ for i in /etc/yum.repos.d/_copr:*.repo; do
 	fi
 done
 
-# Compile the gschemas:
-glib-compile-schemas /usr/share/glib-2.0/schemas
-
-# Make fish default shell for new users:
-sed -i "s|^SHELL=.*|SHELL=/usr/bin/fish|" /etc/default/useradd
-
-# Default systemd target:
-systemctl set-default graphical.target
+# Remove leftover build artifacts from installing packages:
+dnf clean all
+rm -rf /var/{cache,log,lib}/*
+rm -rf /var/tmp
+rm -rf /boot/*
