@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euox pipefail
+
+FONT_DIR="/usr/share/fonts/nerd-fonts"
+
+for font in "$@"; do
+	echo "INFO: Installing $font ..."
+
+	mkdir -p "$FONT_DIR"/"$font"
+
+	curl -fLsS --retry 5 --create-dirs \
+		https://github.com/ryanoasis/nerd-fonts/releases/latest/download/"$font".tar.xz \
+		-o /tmp/fonts/"$font".tar.xz
+
+	tar -xf /tmp/fonts/"$font".tar.xz -C "$FONT_DIR"/"$font"
+
+	echo "INFO: Installed $font"
+done
+
+fc-cache --system-only --really-force "$FONT_DIR"
