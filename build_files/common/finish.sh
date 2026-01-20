@@ -24,5 +24,6 @@ done
 # Remove leftover build artifacts from installing packages:
 dnf clean all
 rm -rf /var/{cache,log,lib}/*
-rm -rf /var/tmp
+rm -rf /var/{tmp,spool}
 rm -rf /boot/*
+rm -rf /var/roothome/.cache
