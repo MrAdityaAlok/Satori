@@ -1,26 +1,12 @@
-%if 0%{?fedora} < 43
-%global use_vendored_xkbcommon 1
-%else
-%global use_vendored_xkbcommon 0
-%endif
-
 Name:           hyprland
 Version:        0.53.1
 Release:        %autorelease
 Summary:        An independent, highly customizable, dynamic tiling Wayland compositor
 
-%if %{use_vendored_xkbcommon}
-License:        BSD-3-Clause AND MIT AND BSD-2-Clause AND HPND-sell-variant AND LGPL-2.1-or-later
-%else
 License:        BSD-3-Clause AND BSD-2-Clause AND HPND-sell-variant AND LGPL-2.1-or-later
-%endif
 
 URL:            https://github.com/hyprwm/Hyprland
 Source0:        %{url}/releases/download/v%{version}/source-v%{version}.tar.gz
-
-%if %{use_vendored_xkbcommon}
-Source1:        https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-1.11.0/libxkbcommon-1.11.0.tar.gz
-%endif
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -67,18 +53,7 @@ BuildRequires:  pkgconfig(hwdata)
 BuildRequires:  pkgconfig(uuid)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(muparser)
-
-%if %{use_vendored_xkbcommon}
-BuildRequires:  meson
-BuildRequires:  bison
-BuildRequires:  flex
-BuildRequires:  byacc
-BuildRequires:  pkgconfig(xcb-xkb)
-BuildRequires:  pkgconfig(xkeyboard-config)
-BuildRequires:  libxml2-devel
-%else
-BuildRequires:  pkgconfig(xkbcommon) >= 1.11.0
-%endif
+BuildRequires:  pkgconfig(xkbcommon)
 
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprlang)
@@ -90,13 +65,8 @@ BuildRequires:  pkgconfig(hyprwayland-scanner)
 BuildRequires:  pkgconfig(hyprland-protocols)
 
 Requires:       xorg-x11-server-Xwayland%{?_isa}
-
-Recommends:     hyprland-guiutils
-Recommends:     polkit
-
-%if %{use_vendored_xkbcommon}
-Provides:       bundled(xkbcommon) = 1.11.0
-%endif
+Requires:       hyprland-guiutils
+Requires:       polkit
 
 %description
 Hyprland is a dynamic tiling Wayland compositor that doesn't sacrifice on
@@ -115,26 +85,8 @@ developing plugins and tools for %{name}.
 %prep
 %autosetup -p1 -n %{name}-source
 
-%if %{use_vendored_xkbcommon}
-mkdir -p subprojects/libxkbcommon
-tar -xf %{SOURCE1} -C subprojects/libxkbcommon --strip-components=1
-%endif
-
 %build
-%if %{use_vendored_xkbcommon}
-pushd subprojects/libxkbcommon
-%meson \
-    -Denable-tools=false \
-    -Ddefault_library=static
-%meson_build
-DESTDIR="%{_builddir}/libxkbcommon" meson install -C %{_vpath_builddir} --no-rebuild
-popd
-export PKG_CONFIG_PATH="%{_builddir}/libxkbcommon/usr/lib64/pkgconfig:$PKG_CONFIG_PATH"
-%global optflags %{optflags} -I%{_builddir}/libxkbcommon/%{_includedir} -L%{_builddir}/libxkbcommon/%{_libdir}
-%endif
-
 %cmake
-
 %cmake_build
 
 %install
