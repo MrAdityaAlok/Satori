@@ -26,22 +26,23 @@ BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  pkgconfig
-BuildRequires:  pam-devel
+
+BuildRequires:  pkgconfig(opengl)
+BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
-BuildRequires:  pkgconfig(cairo)
-BuildRequires:  pkgconfig(pango)
-BuildRequires:  pkgconfig(pangocairo)
+BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(xkbcommon)
-BuildRequires:  pkgconfig(gbm)
+BuildRequires:  pkgconfig(cairo)
+BuildRequires:  pkgconfig(pangocairo)
 BuildRequires:  pkgconfig(libdrm)
-BuildRequires:  pkgconfig(egl)
-BuildRequires:  pkgconfig(gl)
+BuildRequires:  pkgconfig(gbm)
+BuildRequires:  pkgconfig(pam)
+
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprlang)
 BuildRequires:  pkgconfig(hyprgraphics)
 BuildRequires:  pkgconfig(hyprwayland-scanner)
-BuildRequires:  pkgconfig(hyprland-protocols)
 
 %if %{use_vendored_sdbus}
 BuildRequires:  pkgconfig(libsystemd)
@@ -49,12 +50,14 @@ BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(sdbus-c++) >= 2.0.1
 %endif
 
+%if %{use_vendored_sdbus}
+Provides:       bundled(sdbus-cpp) = 2.0.1
+%endif
+
 %description
 hyprlock is Hyprland's simple, yet multi-threaded and GPU-accelerated screen
 locking utility. It uses the ext-session-lock protocol and features fractional
-scaling support, GPU acceleration, blurred screenshots, native fingerprint
-support via libfprint, and Hyprland's eyecandy features like gradient borders,
-blur, animations, and shadows.
+scaling support, GPU acceleration, blurred screenshots, etc.
 
 %prep
 %autosetup -p1
@@ -86,9 +89,9 @@ export PKG_CONFIG_PATH="%{_builddir}/sdbus/lib64/pkgconfig:$PKG_CONFIG_PATH"
 %files
 %license LICENSE
 %doc README.md
-%{_bindir}/hyprlock
-%config(noreplace) %{_sysconfdir}/pam.d/hyprlock
-%{_datadir}/hypr/hyprlock.conf
+%{_bindir}/%{name}
+%config(noreplace) %{_sysconfdir}/pam.d/%{name}
+%{_datadir}/hypr/%{name}.conf
 
 %changelog
 %autochangelog

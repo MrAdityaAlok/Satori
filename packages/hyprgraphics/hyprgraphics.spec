@@ -9,22 +9,24 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
-BuildRequires:  pkgconfig(hyprutils)
-BuildRequires:  pkgconfig(libjxl_cms)
-BuildRequires:  pkgconfig(libjxl_threads)
-BuildRequires:  pkgconfig(libjxl)
-BuildRequires:  pkgconfig(libmagic)
-BuildRequires:  pkgconfig(libpng)
-BuildRequires:  pkgconfig(libheif)
-BuildRequires:  pkgconfig(librsvg-2.0)
-BuildRequires:  pkgconfig(libjpeg)
-BuildRequires:  pkgconfig(libwebp)
+
+BuildRequires:  pkgconfig(pixman-1)
 BuildRequires:  pkgconfig(cairo)
 BuildRequires:  pkgconfig(pangocairo)
-BuildRequires:  pkgconfig(pixman-1)
+BuildRequires:  pkgconfig(libjpeg)
+BuildRequires:  pkgconfig(libwebp)
+BuildRequires:  pkgconfig(libmagic)
+BuildRequires:  pkgconfig(libpng)
+BuildRequires:  pkgconfig(librsvg-2.0)
+BuildRequires:  pkgconfig(libjxl)
+BuildRequires:  pkgconfig(libjxl_cms)
+BuildRequires:  pkgconfig(libjxl_threads)
+BuildRequires:  pkgconfig(libheif)
+
+BuildRequires:  pkgconfig(hyprutils)
 
 %description
-Hyprland graphics library providing utilities for image loading and manipulation.
+Small C++ library for graphics / resource utilities used across the Hypr* ecosystem.
 
 %package        devel
 Summary:        Development files for %{name}

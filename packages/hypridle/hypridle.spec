@@ -41,6 +41,10 @@ BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(sdbus-c++) >= 2.0.1
 %endif
 
+%if %{use_vendored_sdbus}
+Provides:       bundled(sdbus-cpp) = 2.0.1
+%endif
+
 %description
 hypridle is Hyprland's idle management daemon. It uses the ext-idle-notify-v1
 Wayland protocol to monitor user activity and can trigger actions based on

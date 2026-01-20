@@ -89,8 +89,14 @@ BuildRequires:  pkgconfig(hyprwire)
 BuildRequires:  pkgconfig(hyprwayland-scanner)
 BuildRequires:  pkgconfig(hyprland-protocols)
 
-Requires:       polkit
 Requires:       xorg-x11-server-Xwayland%{?_isa}
+
+Recommends:     hyprland-guiutils
+Recommends:     polkit
+
+%if %{use_vendored_xkbcommon}
+Provides:       bundled(xkbcommon) = 1.11.0
+%endif
 
 %description
 Hyprland is a dynamic tiling Wayland compositor that doesn't sacrifice on

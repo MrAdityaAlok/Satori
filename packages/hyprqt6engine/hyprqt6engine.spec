@@ -15,13 +15,12 @@ BuildRequires:  ninja-build
 BuildRequires:  qt6-rpm-macros
 
 BuildRequires:  cmake(Qt6Core)
-BuildRequires:  cmake(Qt6Gui)
 BuildRequires:  cmake(Qt6Widgets)
 BuildRequires:  cmake(Qt6BuildInternals)
-BuildRequires:  qt6-qtbase-private-devel
 BuildRequires:  cmake(KF6Config)
 BuildRequires:  cmake(KF6ColorScheme)
 BuildRequires:  cmake(KF6IconThemes)
+BuildRequires:  qt6-qtbase-private-devel
 
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprlang)

@@ -29,15 +29,17 @@ BuildRequires:  systemd-rpm-macros
 
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
-BuildRequires:  pkgconfig(Qt6Widgets)
 BuildRequires:  pkgconfig(libpipewire-0.3)
 BuildRequires:  pkgconfig(libspa-0.2)
 BuildRequires:  pkgconfig(libdrm)
 BuildRequires:  pkgconfig(gbm)
+# hyprland-share-picker:
+BuildRequires:  pkgconfig(Qt6Widgets)
+
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprlang)
-BuildRequires:  pkgconfig(hyprwayland-scanner)
 BuildRequires:  pkgconfig(hyprland-protocols)
+BuildRequires:  pkgconfig(hyprwayland-scanner)
 
 %if %{use_vendored_sdbus}
 BuildRequires:  pkgconfig(libsystemd)
@@ -50,6 +52,10 @@ Requires:       grim
 Requires:       xdg-desktop-portal
 Requires:       slurp
 Requires:       qt6-qtwayland
+
+%if %{use_vendored_sdbus}
+Provides:       bundled(sdbus-cpp) = 2.0.1
+%endif
 
 %description
 xdg-desktop-portal-hyprland is a backend implementation for xdg-desktop-portal

@@ -11,13 +11,13 @@ BuildRequires:  cmake
 BuildRequires:  gcc-c++
 
 BuildRequires:  pkgconfig(hyprlang)
-BuildRequires:  pkgconfig(librsvg-2.0)
 BuildRequires:  pkgconfig(libzip)
 BuildRequires:  pkgconfig(cairo)
+BuildRequires:  pkgconfig(librsvg-2.0)
 BuildRequires:  pkgconfig(tomlplusplus)
 
 %description
-Utilities for handling cursors in Hyprland components.
+Utilities for handling cursors in Hyprland.
 
 %package        devel
 Summary:        Development files for %{name}
@@ -40,7 +40,7 @@ developing applications that use %{name}.
 %files
 %license LICENSE
 %doc README.md
-%{_bindir}/hyprcursor-util
+%{_bindir}/%{name}-util
 %{_libdir}/lib%{name}.so.%{version}
 %{_libdir}/lib%{name}.so.0
 

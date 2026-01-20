@@ -12,12 +12,13 @@ BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  pkgconfig
 BuildRequires:  systemd-rpm-macros
+
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
+
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprlang)
 BuildRequires:  pkgconfig(hyprwayland-scanner)
-BuildRequires:  pkgconfig(hyprland-protocols)
 
 %description
 hyprsunset is a small utility from the Hyprland organization that allows you to

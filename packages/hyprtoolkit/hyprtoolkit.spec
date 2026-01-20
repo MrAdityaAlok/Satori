@@ -11,21 +11,24 @@ BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 
-BuildRequires:  mesa-libEGL-devel
-BuildRequires:  pkgconfig(hyprwayland-scanner)
-BuildRequires:  pkgconfig(aquamarine)
-BuildRequires:  pkgconfig(egl)
-BuildRequires:  pkgconfig(gbm)
-BuildRequires:  pkgconfig(hyprgraphics)
-BuildRequires:  pkgconfig(hyprlang)
-BuildRequires:  pkgconfig(hyprutils)
-BuildRequires:  pkgconfig(iniparser)
-BuildRequires:  pkgconfig(libdrm)
-BuildRequires:  pkgconfig(pango)
-BuildRequires:  pkgconfig(pixman-1)
+BuildRequires:  pkgconfig(opengl)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
+BuildRequires:  pkgconfig(egl)
+BuildRequires:  pkgconfig(pixman-1)
+BuildRequires:  pkgconfig(libdrm)
+BuildRequires:  pkgconfig(gbm)
 BuildRequires:  pkgconfig(xkbcommon)
+BuildRequires:  pkgconfig(pango)
+BuildRequires:  pkgconfig(cairo)
+BuildRequires:  pkgconfig(pangocairo)
+BuildRequires:  pkgconfig(iniparser)
+
+BuildRequires:  pkgconfig(hyprwayland-scanner)
+BuildRequires:  pkgconfig(hyprutils)
+BuildRequires:  pkgconfig(hyprlang)
+BuildRequires:  pkgconfig(hyprgraphics)
+BuildRequires:  pkgconfig(aquamarine)
 
 %description
 %{summary} for Hyprland.

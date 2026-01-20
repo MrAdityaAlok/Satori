@@ -12,15 +12,13 @@ BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  systemd-rpm-macros
 
-BuildRequires:  cmake(Qt6Core)
 BuildRequires:  cmake(Qt6Widgets)
-BuildRequires:  cmake(Qt6Qml)
+BuildRequires:  cmake(Qt6Quick)
+BuildRequires:  cmake(Qt6QuickControls2)
 BuildRequires:  pkgconfig(polkit-agent-1)
 BuildRequires:  pkgconfig(polkit-qt6-1)
-BuildRequires:  pkgconfig(wayland-client)
-BuildRequires:  pkgconfig(wayland-protocols)
+
 BuildRequires:  pkgconfig(hyprutils)
-BuildRequires:  pkgconfig(hyprwayland-scanner)
 
 %description
 hyprpolkitagent is a simple polkit authentication agent for Hyprland, written
