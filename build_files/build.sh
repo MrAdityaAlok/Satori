@@ -32,7 +32,6 @@ install_cursor_themes() {
 install_cursor_themes
 
 /ctx/common/packages.sh
-/ctx/common/flatpaks.sh
 /ctx/"$VARIANT"/build.sh
 /ctx/common/kernel.sh
 
