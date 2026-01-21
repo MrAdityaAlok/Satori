@@ -23,6 +23,7 @@ env:
   IMAGE_DESC: "Custom Fedora Atomic desktop"
   IMAGE_KEYWORDS: "bootc,fedora,hyprland,atomic"
   DEFAULT_TAG: "latest"
+  VERSION: 43
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
@@ -83,11 +84,12 @@ jobs:
           CREATED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
           # Generate tags (space-separated for buildah)
-          TAGS="${{ env.DEFAULT_TAG }} ${{ env.DEFAULT_TAG }}.${DATE} ${DATE}"
+          TAGS="${{ env.DEFAULT_TAG }} ${{ env.VERSION }}.${DATE} ${DATE} ${{ env.VERSION }}"
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             TAGS="${TAGS} sha-${GITHUB_SHA::7} pr-${{ github.event.pull_request.number }}"
           fi
           echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "date=${DATE}" >> $GITHUB_OUTPUT
 
           # Generate labels (newline-separated for rechunk)
           cat <<EOF >> $GITHUB_OUTPUT
@@ -99,7 +101,7 @@ jobs:
           org.opencontainers.image.title=${{ env.IMAGE_NAME }}
           org.opencontainers.image.url=https://github.com/${{ github.repository }}/tree/${{ github.sha }}
           org.opencontainers.image.vendor=${{ github.repository_owner }}
-          org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.${DATE}
+          org.opencontainers.image.version=${{ env.VERSION }}.${DATE}
           containers.bootc=1
           LABELS_EOF
           EOF
@@ -120,9 +122,9 @@ jobs:
         uses: hhd-dev/rechunk@v1.2.4
         with:
           rechunk: "ghcr.io/hhd-dev/rechunk:v1.2.4"
-          ref: "${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+          ref: "${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}" # Do not edit ref and prev-ref. Currently: compare between local 'latest' and registry's 'latest'.
           prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
-          version: "${{ env.DEFAULT_TAG }}"
+          version: "${{ env.VERSION }}.${{ steps.metadata.outputs.date }}" # Same as in metadata step.
           labels: ${{ steps.metadata.outputs.labels }}
 
       # This is necessary so that the podman socket can find the rechunked image on its storage:
@@ -165,7 +167,7 @@ jobs:
             cosign sign -y --key env://COSIGN_PRIVATE_KEY $IMAGE_FULL:$tag
           done
         env:
-          TAGS: ${{ steps.push.outputs.digest }}
+          TAGS: ${{ steps.push.outputs.digest }} # The digest of the push.
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
           COSIGN_REGISTRY_USERNAME: ${{ github.actor }}
