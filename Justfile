@@ -101,6 +101,7 @@ build $target_image=image_name $variant=default_variant $tag=default_tag:
     podman build \
         "${BUILD_ARGS[@]}" \
         --pull=newer \
+        --layers \
         --tag "${target_image}:${tag}" \
         .
 
