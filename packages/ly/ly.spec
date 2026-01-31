@@ -5,6 +5,9 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 %global commitdate 20260129
 
+
+%global debug_package %{nil}
+
 Name:           ly
 Version:        1.3.1
 Release:        %autorelease -s %{commitdate}git%{shortcommit}
