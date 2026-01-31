@@ -50,10 +50,8 @@ cp %{SOURCE1} .
 cp %{SOURCE2} .
 
 %build
-# Build the application
-# -Doptimize=ReleaseSafe is implicitly handled by some zig macros, but let's be explicit if needed.
-# Using standard zig build command as per instructions
 zig build \
+    --build-id=sha1 \
     -Dinit_system=systemd \
     -Denable_x11_support=false \
     -Doptimize=ReleaseSafe
@@ -75,7 +73,6 @@ zig build installexe \
 
 
 %if %{with selinux}
-# Install SELinux policy
 install -D -m 644 %{name}.pp.bz2 %{buildroot}%{_datadir}/selinux/packages/%{selinuxtype}/%{name}.pp.bz2
 %endif
 
