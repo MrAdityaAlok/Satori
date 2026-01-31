@@ -1,0 +1,79 @@
+policy_module(ly, 1.0.0)
+
+gen_require(`
+    type unconfined_t;
+    type shell_exec_t;
+    type tty_device_t;
+    type user_tty_device_t;
+    type pidfs_t;
+    type lastlog_t;
+    type devlog_t;
+    type initrc_var_run_t;
+')
+
+type ly_t;
+type ly_exec_t;
+init_daemon_domain(ly_t, ly_exec_t)
+
+type ly_conf_t;
+files_config_file(ly_conf_t)
+
+type ly_log_t;
+logging_log_file(ly_log_t)
+
+# Self permissions:
+allow ly_t self:capability { audit_write setgid setuid sys_tty_config };
+allow ly_t self:process { getcap ptrace setcap setexec setfscreate setkeycreate };
+allow ly_t self:fifo_file rw_fifo_file_perms;
+allow ly_t self:netlink_audit_socket { create nlmsg_relay };
+allow ly_t self:unix_dgram_socket { connect create sendto };
+
+# Transition to user sessions:
+domain_auto_trans(ly_t, shell_exec_t, unconfined_t)
+
+# Config files:
+read_files_pattern(ly_t, ly_conf_t, ly_conf_t)
+allow ly_t ly_conf_t:dir list_dir_perms;
+allow ly_t ly_conf_t:file { write append create setattr };
+# Ensure new files created in /etc/ly/ are automatically labeled as ly_conf_t:
+filetrans_pattern(ly_t, ly_conf_t, ly_conf_t, file)
+
+term_use_all_ttys(ly_t)
+term_setattr_all_ttys(ly_t)
+allow ly_t tty_device_t:chr_file { relabelfrom relabelto };
+allow ly_t user_tty_device_t:chr_file { relabelfrom relabelto };
+
+# For battery info:
+kernel_read_system_state(ly_t)
+allow ly_t pidfs_t:filesystem getattr;
+dev_read_sysfs(ly_t)
+
+# Authentication:
+auth_login_pgm_domain(ly_t)
+auth_domtrans_chkpwd(ly_t)
+auth_read_passwd(ly_t)
+auth_rw_lastlog(ly_t)
+
+
+allow ly_t lastlog_t:dir { add_name getattr remove_name search };
+allow ly_t lastlog_t:file { create getattr open read setattr unlink write };
+
+logging_send_audit_msgs(ly_t)
+logging_send_syslog_msg(ly_t)
+
+allow ly_t devlog_t:lnk_file read;
+
+# /var/log/ly.log:
+allow ly_t ly_log_t:file { create_file_perms append_file_perms };
+logging_log_filetrans(ly_t, ly_log_t, file)
+
+systemd_logind_stream_connect(ly_t)
+systemd_homed_stream_connect(ly_t)
+systemd_userdbd_stream_connect(ly_t)
+
+miscfiles_read_localization(ly_t)
+
+corecmd_exec_bin(ly_t)
+corecmd_exec_shell(ly_t)
+
+allow ly_t initrc_var_run_t:file { lock open read write };

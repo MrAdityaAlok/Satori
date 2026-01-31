@@ -1,0 +1,7 @@
+# Minimal file contexts for -Denable_x11_support=false -Dinit_system=systemd
+
+/usr/bin/ly        -- gen_context(system_u:object_r:ly_exec_t,s0)
+/etc/ly(/.*)?      -- gen_context(system_u:object_r:ly_conf_t,s0)
+/etc/ly/setup\.sh  -- gen_context(system_u:object_r:bin_t,s0)
+/etc/pam\.d/ly.*   -- gen_context(system_u:object_r:etc_t,s0)
+/var/log/ly\.log   -- gen_context(system_u:object_r:ly_log_t,s0)
